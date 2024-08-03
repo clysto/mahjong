@@ -1,0 +1,41 @@
+* {
+  box-sizing: border-box;
+  user-select: none;
+}
+
+body {
+  /* background-color: #1f422d; */
+  margin: 0;
+}
+
+#app {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.game {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #1f422d;
+}
+
+.discarded {
+  flex: 1;
+  padding: 0 10px;
+  width: 60%;
+  margin: 0 auto;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.oponent {
+  padding: 20px 10px 0px 10px;
+  display: flex;
+  justify-content: space-between;
+}

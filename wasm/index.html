@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mahjong</title>
+  </head>
+  <body></body>
+  <script src="wasm_exec.js"></script>
+  <script>
+    const go = new Go();
+    WebAssembly.instantiateStreaming(fetch('index.wasm'), go.importObject).then((result) => {
+      go.run(result.instance);
+      startGame();
+      console.log(JSON.parse(gameState()));
+    });
+  </script>
+</html>

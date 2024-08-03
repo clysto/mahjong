@@ -1,0 +1,192 @@
+@import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap');
+
+.tile {
+  display: inline-block;
+  line-height: 0;
+  user-select: none;
+  width: 40px;
+  aspect-ratio: 57 / 78 auto;
+  border: 1px solid #93989c;
+  border-radius: 5px;
+  background-color: #f5f6f7;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0px -6px 0px #93989c, 0px -9px 0px #1d3954;
+  font-size: 0;
+}
+
+.tile.hidden {
+  background-color: #3f79b2;
+  box-shadow: 0px -3px 0px #1d3954, 0px -9px 0px #bcbec2;
+  border-color: #1d3954;
+}
+
+.tile.selected {
+  transform: translateY(-10px);
+}
+
+.tile.small {
+  width: 30px;
+  box-shadow: none;
+  box-shadow: 4px 0px 0px #93989c, 6px 0px 0px #1d3954;
+}
+
+.panel {
+  padding: 10px;
+  position: relative;
+}
+
+.panel .bar {
+  padding: 0 0px 20px 0px;
+  display: flex;
+  flex-direction: row-reverse;
+  position: absolute;
+  right: 50px;
+  top: -50px;
+}
+
+.melds {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.meld {
+  margin: 0 10px;
+}
+
+.button {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-weight: 400;
+  font-style: normal;
+  color: #d9ebfd;
+  background-color: #3f79b2;
+  font-size: 30px;
+  display: inline-block;
+  padding: 4px;
+  border: 3px solid #1d3954;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.hand-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: end;
+}
+
+.hand.turn .tile:last-child {
+  margin-left: 15px;
+}
+
+.indicator {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-weight: 400;
+  font-style: normal;
+  color: #1d3954;
+  background-color: #3f79b2;
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: 1 / 1 auto;
+  width: 80px;
+  padding: 4px;
+  border: 3px solid #1d3954;
+  border-radius: 20px;
+  margin-left: 5px;
+  text-align: center;
+  position: relative;
+}
+
+.indicator .row {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.indicator .info {
+  position: absolute;
+  left: 80px;
+  bottom: 0px;
+  color: #84a791;
+  width: 100px;
+  text-align: left;
+}
+
+.indicator .number {
+  font-family: serif;
+  font-weight: bold;
+  padding: 0 2px;
+}
+
+.indicator .east {
+  transform: rotate(180deg);
+}
+
+.indicator .north {
+  transform: rotate(90deg);
+}
+
+.indicator .south {
+  transform: rotate(-90deg);
+}
+
+.indicator .west.active,
+.indicator .east.active,
+.indicator .north.active,
+.indicator .south.active {
+  color: #d9ebfd;
+  animation: blink 1500ms infinite;
+}
+
+.statistic {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  padding: 30px;
+}
+
+.board {
+  background-color: rgb(237 247 255 / 82%);
+  width: 100%;
+  height: 100%;
+  /* border-radius: 20px; */
+  padding: 20px;
+  border: 10px solid #1d3954;
+}
+
+.board h1 {
+  font-family: 'Ma Shan Zheng', cursive;
+  color: #1d3954;
+  margin: 0 0 20px 0;
+  font-size: 40px;
+  text-align: center;
+}
+
+.win-tiles {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: baseline;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
