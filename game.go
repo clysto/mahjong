@@ -9,11 +9,11 @@ import (
 )
 
 type Player struct {
-	Hand            []Tile `json:"hand"`
-	Discards        []Tile `json:"discards"`
-	Melds           []Meld `json:"melds"`
-	Wind            Wind   `json:"wind"`
-	stealingConfirm *StealingConfirm
+	Hand            []Tile           `json:"hand"`
+	Discards        []Tile           `json:"discards"`
+	Melds           []Meld           `json:"melds"`
+	Wind            Wind             `json:"wind"`
+	StealingConfirm *StealingConfirm `json:"stealingConfirm"`
 }
 
 type GameConfig struct {
@@ -114,14 +114,14 @@ func (g *Game) CheckStealing() {
 	for _, p := range g.Players {
 		if g.Turn == p.Wind {
 			// cannot steal yourself
-			p.stealingConfirm = nil
+			p.StealingConfirm = nil
 		} else {
 			count := CountTiles(p.Hand, lastDiscarded)
 			canWin := CheckWinningHand(append(p.Hand, lastDiscarded))
 			if count >= 2 || canWin {
-				p.stealingConfirm = &StealingConfirm{Declared: false, Type: -1}
+				p.StealingConfirm = &StealingConfirm{Declared: false, Type: -1}
 			} else {
-				p.stealingConfirm = nil
+				p.StealingConfirm = nil
 			}
 		}
 	}
@@ -131,12 +131,12 @@ func (g *Game) CanSteal(playerWind Wind) bool {
 	if g.Players[playerWind] == nil {
 		return false
 	}
-	return g.Players[playerWind].stealingConfirm != nil
+	return g.Players[playerWind].StealingConfirm != nil
 }
 
 func (g *Game) AllPlayersConfirmedStealing() bool {
 	for _, p := range g.Players {
-		if p.stealingConfirm != nil && !p.stealingConfirm.Declared {
+		if p.StealingConfirm != nil && !p.StealingConfirm.Declared {
 			return false
 		}
 	}
@@ -151,15 +151,15 @@ func (g *Game) ApplyStealing() {
 	var whoCanSteal Wind
 	stealType := -1
 	for _, p := range g.Players {
-		if p.stealingConfirm != nil {
+		if p.StealingConfirm != nil {
 			// if someone can win, then the game ends
-			if p.stealingConfirm.Type == Win {
+			if p.StealingConfirm.Type == Win {
 				g.Ended = true
 				return
 			}
 			// if the stealing priority is higher than the current one
-			if p.stealingConfirm.Type > stealType {
-				stealType = p.stealingConfirm.Type
+			if p.StealingConfirm.Type > stealType {
+				stealType = p.StealingConfirm.Type
 				whoCanSteal = p.Wind
 			}
 		}
@@ -168,7 +168,7 @@ func (g *Game) ApplyStealing() {
 	if stealType == -1 {
 		// no one wants to steal the tile
 		for _, p := range g.Players {
-			p.stealingConfirm = nil
+			p.StealingConfirm = nil
 		}
 		g.NextTurn()
 		g.Draw(g.Turn)
@@ -203,7 +203,7 @@ func (g *Game) ApplyStealing() {
 	}
 
 	for _, p := range g.Players {
-		p.stealingConfirm = nil
+		p.StealingConfirm = nil
 	}
 }
 
@@ -241,16 +241,16 @@ func (g *Game) Print() {
 			}
 		}
 		out.Print("]\n")
-		if p.stealingConfirm != nil {
-			if p.stealingConfirm.Declared {
-				green.Printf("       confirmed steal: %v", p.stealingConfirm.Declared)
-				if p.stealingConfirm.Type == Win {
+		if p.StealingConfirm != nil {
+			if p.StealingConfirm.Declared {
+				green.Printf("       confirmed steal: %v", p.StealingConfirm.Declared)
+				if p.StealingConfirm.Type == Win {
 					green.Printf(" (win)\n")
 				} else {
 					green.Printf("\n")
 				}
 			} else {
-				red.Printf("       confirmed steal: %v\n", p.stealingConfirm.Declared)
+				red.Printf("       confirmed steal: %v\n", p.StealingConfirm.Declared)
 			}
 		}
 	}

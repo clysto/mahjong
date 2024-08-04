@@ -15,30 +15,21 @@ const TILEIMAGES = import.meta.glob('./tiles/*.svg', {
   eager: true,
 });
 
-export default class MahjongTile {
-  constructor(vnode) {
-    const t = vnode.attrs.tile;
-    if (!TILES.includes(t)) {
-      throw new Error(`Invalid tile: ${t}`);
-    }
-    this.tile = t;
-    this.selected = vnode.attrs.selected ? true : false;
-    this.small = vnode.attrs.small ? true : false;
-    this.handleClick = vnode.attrs.onclick;
-  }
-
-  view(vnode) {
-    return m(
-      'div',
-      {
-        className: classNames('tile', {
-          selected: vnode.attrs.selected,
-          hidden: vnode.attrs.hidden,
-          small: this.small,
-        }),
-        onclick: this.handleClick,
-      },
-      vnode.attrs.hidden || m.trust(TILEIMAGES[`./tiles/${this.tile}.svg`])
-    );
-  }
+export default function MahjongTile() {
+  return {
+    view(vnode) {
+      return m(
+        'div',
+        {
+          className: classNames('tile', {
+            selected: vnode.attrs.selected ? true : false,
+            hidden: vnode.attrs.hidden,
+            small: vnode.attrs.small,
+          }),
+          onclick: vnode.attrs.onclick,
+        },
+        vnode.attrs.hidden || m.trust(TILEIMAGES[`./tiles/${vnode.attrs.tile}.svg`])
+      );
+    },
+  };
 }

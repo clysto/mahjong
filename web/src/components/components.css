@@ -69,6 +69,11 @@
   border-radius: 10px;
   cursor: pointer;
   margin-left: 5px;
+  text-decoration: none;
+}
+
+.button:hover {
+  background-color: #1d3954;
 }
 
 .hand-wrapper {
@@ -78,7 +83,7 @@
   align-items: end;
 }
 
-.hand.turn .tile:last-child {
+.hand.separated-last-tile .tile:last-child {
   margin-left: 15px;
 }
 
@@ -124,7 +129,7 @@
   padding: 0 2px;
 }
 
-.indicator .east {
+.indicator .west {
   transform: rotate(180deg);
 }
 
@@ -162,6 +167,12 @@
   /* border-radius: 20px; */
   padding: 20px;
   border: 10px solid #1d3954;
+  display: flex;
+  flex-direction: column;
+}
+
+.board .info {
+  flex: 1;
 }
 
 .board h1 {
@@ -177,6 +188,17 @@
   flex-direction: row;
   justify-content: center;
   align-items: baseline;
+}
+
+.statistic .buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+}
+
+.statistic .buttons .button {
+  margin-left: 25px;
 }
 
 @keyframes blink {

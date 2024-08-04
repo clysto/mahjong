@@ -7,7 +7,7 @@ export default class MahjongHand {
     this.tiles = vnode.attrs.tiles;
     this.selectedIndex = -1;
     this.ondiscard = vnode.attrs.ondiscard;
-    // onclick outside
+
     window.addEventListener('click', (e) => {
       if (!e.target.closest('.hand')) {
         this.selectedIndex = -1;
@@ -30,7 +30,7 @@ export default class MahjongHand {
     return m(
       'div.hand',
       {
-        className: classNames({ turn: vnode.attrs.turn }),
+        className: classNames({ 'separated-last-tile': vnode.attrs.separatedLastTile }),
       },
       this.tiles.map((tile, index) =>
         m(MahjongTile, {

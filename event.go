@@ -47,7 +47,7 @@ func (e DiscardEvent) Apply(g *Game) error {
 		return errors.New("tile not found in player's hand")
 	}
 	for _, p := range g.Players {
-		if p.stealingConfirm != nil {
+		if p.StealingConfirm != nil {
 			return errors.New("you have discarded a tile that can be stolen")
 		}
 	}
@@ -60,7 +60,7 @@ func (e DiscardEvent) Apply(g *Game) error {
 	g.CheckStealing()
 
 	for _, p := range g.Players {
-		if p.stealingConfirm != nil {
+		if p.StealingConfirm != nil {
 			return nil
 		}
 	}
@@ -75,7 +75,7 @@ func (e PongEvent) Apply(g *Game) error {
 	if g.Turn == e.PlayerWind {
 		return errors.New("cannot pong yourself")
 	}
-	if g.Players[e.PlayerWind].stealingConfirm == nil {
+	if g.Players[e.PlayerWind].StealingConfirm == nil {
 		return errors.New("player cannot pong")
 	}
 
@@ -86,8 +86,8 @@ func (e PongEvent) Apply(g *Game) error {
 		return errors.New("not enough tiles to pong")
 	}
 
-	player.stealingConfirm.Declared = true
-	player.stealingConfirm.Type = Pong
+	player.StealingConfirm.Declared = true
+	player.StealingConfirm.Type = Pong
 
 	if g.AllPlayersConfirmedStealing() {
 		// all players have confirmed stealing
@@ -99,7 +99,7 @@ func (e PongEvent) Apply(g *Game) error {
 
 func (e KongEvent) Apply(g *Game) error {
 	if g.Turn != e.PlayerWind {
-		if g.Players[e.PlayerWind].stealingConfirm == nil {
+		if g.Players[e.PlayerWind].StealingConfirm == nil {
 			return errors.New("player cannot kong")
 		}
 
@@ -110,8 +110,8 @@ func (e KongEvent) Apply(g *Game) error {
 			return errors.New("not enough tiles to kong")
 		}
 
-		player.stealingConfirm.Declared = true
-		player.stealingConfirm.Type = Kong
+		player.StealingConfirm.Declared = true
+		player.StealingConfirm.Type = Kong
 
 		if g.AllPlayersConfirmedStealing() {
 			// all players have confirmed stealing
@@ -120,6 +120,7 @@ func (e KongEvent) Apply(g *Game) error {
 		return nil
 	} else {
 		// concealed kong or added kong
+		// TODO: added kong logic
 		player := g.Players[e.PlayerWind]
 		count := CountTiles(player.Hand, e.KongTile)
 		if count < 4 {
@@ -136,13 +137,13 @@ func (e KongEvent) Apply(g *Game) error {
 
 func (e WinEvent) Apply(g *Game) error {
 	if g.Turn != e.PlayerWind {
-		if g.Players[e.PlayerWind].stealingConfirm == nil {
+		if g.Players[e.PlayerWind].StealingConfirm == nil {
 			return errors.New("player cannot win")
 		}
 
 		player := g.Players[e.PlayerWind]
-		player.stealingConfirm.Declared = true
-		player.stealingConfirm.Type = Win
+		player.StealingConfirm.Declared = true
+		player.StealingConfirm.Type = Win
 
 		if g.AllPlayersConfirmedStealing() {
 			// all players have confirmed stealing
@@ -166,13 +167,13 @@ func (e SkipEvent) Apply(g *Game) error {
 	if g.Turn == e.PlayerWind {
 		return errors.New("cannot skip yourself")
 	}
-	if g.Players[e.PlayerWind].stealingConfirm == nil {
+	if g.Players[e.PlayerWind].StealingConfirm == nil {
 		return errors.New("nothing to skip")
 	}
 
 	player := g.Players[e.PlayerWind]
-	player.stealingConfirm.Declared = true
-	player.stealingConfirm.Type = -1
+	player.StealingConfirm.Declared = true
+	player.StealingConfirm.Type = -1
 
 	if g.AllPlayersConfirmedStealing() {
 		// all players have confirmed stealing

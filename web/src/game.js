@@ -2,28 +2,29 @@ import { Peer } from 'peerjs';
 
 export class Game {
   constructor() {
-    startGame();
-    this.game = JSON.parse(gameState());
+    mahjong.startGame();
+    this.game = mahjong.gameState();
+    // console.log(this.game)
 
-    // Create a proxy to delegate property access to this.game
-    return new Proxy(this, {
-      get: (target, prop, receiver) => {
-        if (prop in target) {
-          return Reflect.get(target, prop, receiver);
-        } else if (prop in target.game) {
-          return target.game[prop];
-        }
-      },
-      set: (target, prop, value, receiver) => {
-        if (prop in target) {
-          return Reflect.set(target, prop, value, receiver);
-        } else if (prop in target.game) {
-          target.game[prop] = value;
-          return true;
-        }
-        return false;
-      },
-    });
+    // // Create a proxy to delegate property access to this.game
+    // return new Proxy(this, {
+    //   get: (target, prop, receiver) => {
+    //     if (prop in target) {
+    //       return Reflect.get(target, prop, receiver);
+    //     } else if (prop in target.game) {
+    //       return target.game[prop];
+    //     }
+    //   },
+    //   set: (target, prop, value, receiver) => {
+    //     if (prop in target) {
+    //       return Reflect.set(target, prop, value, receiver);
+    //     } else if (prop in target.game) {
+    //       target.game[prop] = value;
+    //       return true;
+    //     }
+    //     return false;
+    //   },
+    // });
   }
 
   pushEvent(event) {
