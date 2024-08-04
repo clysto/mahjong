@@ -14,10 +14,18 @@ var game *mahjong.Game
 
 func startGame(this js.Value, args []js.Value) (interface{}, error) {
 	config := mahjong.DefaultGameConfig()
-	config.AvailableTiles = []mahjong.TileSet{mahjong.Characters, mahjong.Bamboo, mahjong.Honors}
+	config.AvailableTiles = []mahjong.TileSet{mahjong.Characters, mahjong.Honors}
 	config.Players = []mahjong.Wind{mahjong.East, mahjong.West}
 	game = mahjong.NewGame(config)
 	game.Deal()
+	// game.Players[mahjong.East].Hand[0] = mahjong.Tile{mahjong.Characters, 1}
+	// game.Players[mahjong.East].Hand[1] = mahjong.Tile{mahjong.Characters, 1}
+	// game.Players[mahjong.East].Hand[2] = mahjong.Tile{mahjong.Characters, 1}
+	// game.Players[mahjong.East].Hand[3] = mahjong.Tile{mahjong.Characters, 1}
+	// game.Players[mahjong.East].Hand[4] = mahjong.Tile{mahjong.Characters, 2}
+	// game.Players[mahjong.East].Hand[5] = mahjong.Tile{mahjong.Characters, 2}
+	// game.Players[mahjong.East].Hand[6] = mahjong.Tile{mahjong.Characters, 2}
+	// game.Players[mahjong.East].Hand[7] = mahjong.Tile{mahjong.Characters, 2}
 	game.Draw(mahjong.East)
 	obj := js.Global().Get("mahjong")
 	obj.Set("game", GenerateJSValue(game))

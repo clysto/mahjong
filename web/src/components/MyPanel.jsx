@@ -2,7 +2,7 @@ import m from 'mithril';
 import MahjongHand from './MahjongHand';
 import MahjongTile from './MahjongTile';
 
-function haveConcealedKong(hand) {
+function concealedKongs(hand) {
   const count = {};
   for (const tile of hand) {
     if (!count[tile]) {
@@ -11,7 +11,9 @@ function haveConcealedKong(hand) {
       count[tile]++;
     }
   }
-  return Object.values(count).filter((v) => v === 4).length > 0;
+  return Object.entries(count)
+    .filter(([_, n]) => n >= 4)
+    .map(([tile, _]) => tile);
 }
 
 function countTiles(hand, tile) {
@@ -22,11 +24,12 @@ export default class MyPanel {
   constructor(vnode) {
     this.myWind = vnode.attrs.wind;
     this.buttons = [
-      { text: '过', show: true },
-      { text: '杠', show: true },
-      { text: '碰', show: true },
-      { text: '和', show: true },
+      { text: '过', show: true, eventType: 'skip' },
+      { text: '杠', show: true, eventType: 'kong' },
+      { text: '碰', show: true, eventType: 'pong' },
+      { text: '和', show: true, eventType: 'win' },
     ];
+    this.concealedKongs = [];
   }
 
   canSteal() {
@@ -46,27 +49,21 @@ export default class MyPanel {
     }
   }
 
-  handleAction(action) {
-    switch (action) {
-      case '过':
-        mahjong.pushEvent('skip', { playerWind: this.myWind });
-        break;
-      case '杠':
-        mahjong.pushEvent('kong', { playerWind: this.myWind });
-        break;
-      case '碰':
-        mahjong.pushEvent('pong', { playerWind: this.myWind });
-        break;
-      case '和':
-        mahjong.pushEvent('win', { playerWind: this.myWind });
-        break;
+  handleAction(eventType) {
+    if (eventType === 'kong' && this.concealedKongs.length > 0) {
+      return;
     }
+    const e = {
+      playerWind: this.myWind,
+    };
+    mahjong.pushEvent(eventType, e);
   }
 
   displayButtons() {
     const lastDiscarded = this.lastDiscarded();
     const hand = mahjong.game.players[this.myWind].hand;
     const myTurn = mahjong.game.turn === this.myWind;
+    this.concealedKongs = myTurn ? concealedKongs(hand) : [];
     this.buttons.forEach((button) => {
       switch (button.text) {
         case '过':
@@ -75,7 +72,7 @@ export default class MyPanel {
         case '杠':
           // 明杠或者暗杠
           button.show =
-            (this.canSteal() && countTiles(hand, lastDiscarded) >= 3) || (myTurn && haveConcealedKong(hand));
+            (this.canSteal() && countTiles(hand, lastDiscarded) >= 3) || (myTurn && this.concealedKongs.length > 0);
           break;
         case '碰':
           button.show = this.canSteal() && countTiles(hand, lastDiscarded) >= 2;
@@ -95,6 +92,13 @@ export default class MyPanel {
     });
   }
 
+  handleConcealedKong(tile) {
+    mahjong.pushEvent('kong', {
+      playerWind: this.myWind,
+      kongTile: tile,
+    });
+  }
+
   view() {
     this.displayButtons();
     return (
@@ -103,12 +107,26 @@ export default class MyPanel {
           {this.buttons.map(
             (button) =>
               button.show && (
-                <div className="button" onclick={() => this.handleAction(button.text)}>
+                <div className="button" onclick={() => this.handleAction(button.eventType)}>
                   {button.text}
                 </div>
               )
           )}
         </div>
+        {this.concealedKongs.length > 0 && (
+          <div className="choosen">
+            <div className="dialog">
+              {this.concealedKongs.map((tile) => (
+                <div className="kong" onclick={() => this.handleConcealedKong(tile)}>
+                  <MahjongTile tile={tile} small={true} shadow={false} />
+                  <MahjongTile tile={tile} small={true} shadow={false} />
+                  <MahjongTile tile={tile} small={true} shadow={false} />
+                  <MahjongTile tile={tile} small={true} shadow={false} />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
         <div className="hand-wrapper">
           <MahjongHand
             tiles={mahjong.game.players[this.myWind].hand}

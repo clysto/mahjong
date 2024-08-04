@@ -18,6 +18,10 @@ const TILEIMAGES = import.meta.glob('./tiles/*.svg', {
 export default function MahjongTile() {
   return {
     view(vnode) {
+      let shadow = true;
+      if (vnode.attrs.shadow !== undefined) {
+        shadow = vnode.attrs.shadow;
+      }
       return m(
         'div',
         {
@@ -25,6 +29,7 @@ export default function MahjongTile() {
             selected: vnode.attrs.selected ? true : false,
             hidden: vnode.attrs.hidden,
             small: vnode.attrs.small,
+            shadow: shadow,
           }),
           onclick: vnode.attrs.onclick,
         },
