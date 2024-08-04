@@ -1,3 +1,4 @@
+import room from '../room';
 import m from 'mithril';
 import MahjongHand from './MahjongHand';
 import MahjongTile from './MahjongTile';
@@ -42,7 +43,7 @@ export default class MyPanel {
 
   handleDiscard(tile) {
     if (mahjong.game.turn === this.myWind) {
-      mahjong.pushEvent('discard', {
+      room.pushEvent('discard', {
         playerWind: this.myWind,
         discardedTile: tile,
       });
@@ -56,7 +57,7 @@ export default class MyPanel {
     const e = {
       playerWind: this.myWind,
     };
-    mahjong.pushEvent(eventType, e);
+    room.pushEvent(eventType, e);
   }
 
   displayButtons() {
@@ -67,18 +68,21 @@ export default class MyPanel {
     this.buttons.forEach((button) => {
       switch (button.text) {
         case '过':
-          button.show = this.canSteal();
+          button.show = !mahjong.ended && this.canSteal();
           break;
         case '杠':
           // 明杠或者暗杠
           button.show =
-            (this.canSteal() && countTiles(hand, lastDiscarded) >= 3) || (myTurn && this.concealedKongs.length > 0);
+            !mahjong.ended &&
+            ((this.canSteal() && countTiles(hand, lastDiscarded) >= 3) || (myTurn && this.concealedKongs.length > 0));
           break;
         case '碰':
-          button.show = this.canSteal() && countTiles(hand, lastDiscarded) >= 2;
+          button.show = !mahjong.ended && this.canSteal() && countTiles(hand, lastDiscarded) >= 2;
           break;
         case '和':
-          if (myTurn) {
+          if (mahjong.ended) {
+            button.show = false;
+          } else if (myTurn) {
             button.show = mahjong.checkWinningHand(hand);
           } else {
             if (lastDiscarded) {
@@ -93,7 +97,7 @@ export default class MyPanel {
   }
 
   handleConcealedKong(tile) {
-    mahjong.pushEvent('kong', {
+    room.pushEvent('kong', {
       playerWind: this.myWind,
       kongTile: tile,
     });

@@ -12,17 +12,9 @@ WebAssembly.instantiateStreaming(fetch('index.wasm'), go.importObject).then((res
       if (target[prop] instanceof Function) {
         return new Proxy(target[prop], {
           apply: (target, thisArg, argumentsList) => {
-            if (prop === 'pushEvent' && mahjong.server) {
-              mahjong.server.send({ type: 'pushEvent', eventType: argumentsList[0], event: argumentsList[1] });
-              return null;
-            }
-
             const result = target.apply(thisArg, argumentsList);
             if (result.error) {
               throw new Error(result.error);
-            }
-            if (prop === 'pushEvent' && mahjong.client) {
-              mahjong.client.send(mahjong.game);
             }
             return result.data;
           },

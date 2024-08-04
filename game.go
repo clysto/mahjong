@@ -71,6 +71,11 @@ func NewGame(config GameConfig) *Game {
 
 // move to the next player, the order is East -> South -> West -> North
 func (g *Game) NextTurn() {
+	if len(g.Wall) == 0 {
+		g.Ended = true
+		return
+	}
+
 	order := map[Wind]Wind{
 		East:  South,
 		South: West,
@@ -100,7 +105,6 @@ func (g *Game) Deal() {
 // draw a tile from the wall for the player
 func (g *Game) Draw(playerWind Wind) {
 	if len(g.Wall) == 0 {
-		g.Ended = true
 		return
 	}
 	player := g.Players[playerWind]
@@ -186,6 +190,7 @@ func (g *Game) ApplyStealing() {
 		if count < 2 {
 			break
 		}
+		g.Players[g.Turn].Discards = g.Players[g.Turn].Discards[:len(g.Players[g.Turn].Discards)-1]
 		player.Hand = RemoveTiles(player.Hand, lastDiscarded, 2)
 		player.Melds = append(player.Melds,
 			Meld{Tiles: []Tile{lastDiscarded, lastDiscarded, lastDiscarded}, Discarder: g.Turn})
@@ -194,6 +199,7 @@ func (g *Game) ApplyStealing() {
 		if count < 3 {
 			break
 		}
+		g.Players[g.Turn].Discards = g.Players[g.Turn].Discards[:len(g.Players[g.Turn].Discards)-1]
 		player.Hand = RemoveTiles(player.Hand, lastDiscarded, 3)
 		player.Melds = append(player.Melds,
 			Meld{Tiles: []Tile{lastDiscarded, lastDiscarded, lastDiscarded, lastDiscarded}, Discarder: g.Turn})

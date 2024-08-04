@@ -1,9 +1,16 @@
 import m from 'mithril';
+import ConnectDialog from '../components/ConnectDialog.jsx';
+
+const { Link } = m.route;
 
 export default class HomePage {
   constructor() {}
 
   view() {
-    return <h1>he</h1>;
+    return (
+      <div>
+        <ConnectDialog></ConnectDialog>
+      </div>
+    );
   }
 }

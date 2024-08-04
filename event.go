@@ -56,7 +56,7 @@ func (e DiscardEvent) Apply(g *Game) error {
 	player.Discards = append(player.Discards, e.DiscardedTile)
 	SortHand(player.Hand)
 
-	// check if someone can steal the discarded tile
+	// 检查是否有人想要玩家刚刚打出的牌(杠碰吃和)
 	g.CheckStealing()
 
 	for _, p := range g.Players {
@@ -109,6 +109,10 @@ func (e KongEvent) Apply(g *Game) error {
 		if count < 3 {
 			return errors.New("not enough tiles to kong")
 		}
+		// 牌墙为空时不能杠
+		if len(g.Wall) == 0 {
+			return errors.New("wall is empty")
+		}
 
 		player.StealingConfirm.Declared = true
 		player.StealingConfirm.Type = Kong
@@ -119,7 +123,7 @@ func (e KongEvent) Apply(g *Game) error {
 		}
 		return nil
 	} else {
-		// concealed kong or added kong
+		// 暗杠或者补杠
 		// TODO: added kong logic
 		player := g.Players[e.PlayerWind]
 		count := CountTiles(player.Hand, e.KongTile)
@@ -152,8 +156,8 @@ func (e WinEvent) Apply(g *Game) error {
 
 		return nil
 	} else {
-		// Self-draw
 		if CheckWinningHand(g.Players[e.PlayerWind].Hand) {
+			// 自摸赢
 			g.Ended = true
 			return nil
 		} else {
