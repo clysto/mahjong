@@ -6,4 +6,6 @@ A two player game is implemented as an example.
 
 **DEMO:** <https://clysto.github.io/mahjong>
 
-![Mahjong Game](misc/screenshot.png)
+|                                       |                                       |
+| ------------------------------------- | ------------------------------------- |
+| ![Mahjong Game](misc/screenshot1.png) | ![Mahjong Game](misc/screenshot2.png) |
