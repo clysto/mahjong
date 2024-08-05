@@ -8,28 +8,23 @@ const PATH = '/myapp';
 const room = {
   connect(serverId) {
     this.ready = false;
+    this.players = {};
     this.role = serverId ? 'client' : 'server';
     console.log(this.role);
-
-    if (this.role === 'server') {
-      wasm.startGame();
-    }
 
     if (this.peer) {
       this.peer.destroy();
     }
 
-    this.peer = new Peer({
-      host: HOST,
-      port: PORT,
-      path: PATH,
-    });
+    this.peer = new Peer();
 
     this.peer.on('open', (id) => {
       this.id = id;
       m.redraw();
       console.log(this.id);
       if (this.role === 'server') {
+        this.dealer = 'E';
+        wasm.startGame(this.dealer);
         this.peer.on('connection', (conn) => {
           console.log('Client connected: ' + conn.peer);
           this.ready = true;
@@ -54,6 +49,7 @@ const room = {
       this.conn.send({ type: 'pushEvent', eventType, event });
     } else {
       wasm.pushEvent(eventType, event);
+      // localStorage.setItem('game', JSON.stringify(mahjong.game));
       this.conn.send({ type: 'state', game: mahjong.game });
     }
   },
@@ -74,6 +70,16 @@ const room = {
         this.conn.send({ type: 'state', game: mahjong.game });
         m.redraw();
       }
+    }
+  },
+
+  restart() {
+    if (this.role === 'server') {
+      this.dealer = { E: 'W', W: 'E' }[this.dealer];
+      wasm.startGame(this.dealer);
+      this.conn.send({ type: 'state', game: mahjong.game });
+    } else {
+      this.conn.send({ type: 'restart' });
     }
   },
 };

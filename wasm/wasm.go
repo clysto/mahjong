@@ -18,7 +18,12 @@ func startGame(this js.Value, args []js.Value) (interface{}, error) {
 	config.Players = []mahjong.Wind{mahjong.East, mahjong.West}
 	game = mahjong.NewGame(config)
 	game.Deal()
-	game.Draw(mahjong.East)
+	if len(args) > 0 {
+		game.Turn = mahjong.Wind(args[0].String())
+		game.Draw(mahjong.Wind(args[0].String()))
+	} else {
+		game.Draw(mahjong.East)
+	}
 	obj := js.Global().Get("wasm")
 	obj.Set("game", GenerateJSValue(game))
 	return nil, nil

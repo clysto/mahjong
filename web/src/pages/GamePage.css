@@ -23,6 +23,8 @@ body {
   flex-direction: column;
   height: 100vh;
   background-color: #1f422d;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .discarded {

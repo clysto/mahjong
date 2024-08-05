@@ -1,9 +1,14 @@
 import m from 'mithril';
+import room from '../room';
 import MahjongTile from './MahjongTile';
 
 const { Link } = m.route;
 
 export default function StatisticBoard() {
+  const restart = () => {
+    room.restart();
+  };
+
   return {
     view(vnode) {
       this.game = vnode.attrs.game;
@@ -28,7 +33,7 @@ export default function StatisticBoard() {
               <Link href="/home" className="button">
                 返回大厅
               </Link>
-              <button className="button" onclick={() => mahjong.startGame()}>
+              <button className="button" onclick={restart}>
                 再来一局
               </button>
             </div>

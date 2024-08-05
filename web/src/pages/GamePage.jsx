@@ -25,6 +25,7 @@ export default class GamePage {
 
     if (!room.peer) {
       m.route.set('/home');
+      return;
     }
 
     if (room.role === 'server') {
@@ -32,11 +33,6 @@ export default class GamePage {
     } else {
       this.myWind = 'W';
     }
-  }
-
-  restart() {
-    mahjong.startGame();
-    m.redraw();
   }
 
   view() {
@@ -70,18 +66,20 @@ export default class GamePage {
           </div>
           <MyPanel wind={this.myWind} />
         </div>
-        {mahjong.game.ended && <StatisticBoard game={mahjong.game} onrestart={() => this.restart()} />}
+        {mahjong.game.ended && <StatisticBoard game={mahjong.game} />}
       </div>
     ) : (
-      <div className="connection">
-        <div className="board">
-          <h1>等待玩家加入......</h1>
-          <p className="label">分享以下房间号给你的朋友：</p>
-          <input type="text" className="input" value={room.id} readOnly />
-          <div className="spacer"></div>
-          <button className="button">返回大厅</button>
+      room.role === 'server' && (
+        <div className="connection">
+          <div className="board">
+            <h1>等待玩家加入......</h1>
+            <p className="label">分享以下房间号给你的朋友：</p>
+            <input type="text" className="input" value={room.id} readOnly placeholder="创建中......" />
+            <div className="spacer"></div>
+            <button className="button">返回大厅</button>
+          </div>
         </div>
-      </div>
+      )
     );
   }
 }
