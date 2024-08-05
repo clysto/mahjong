@@ -7,20 +7,18 @@ import classes from './components.module.css';
 const { Link } = m.route;
 
 function gameStatistic(game) {
-  // check who win
-  let result = '';
-  if (game.winner === 'E') {
-    result = '东家胜';
-  } else if (game.winner === 'S') {
-    result = '南家胜';
-  } else if (game.winner === 'W') {
-    result = '西家胜';
-  } else if (game.winner === 'N') {
-    result = '北家胜';
-  } else {
-    result = '流局';
+  const statistic = {};
+  const lastDiscarded = game.players[mahjong.game.turn].discards.slice(-1)[0];
+  for (const player of Object.values(game.players)) {
+    const hand = player.hand;
+    if (mahjong.checkWinningHand(hand)) {
+      statistic.winner = player.wind;
+    } else if (mahjong.checkWinningHand([...hand, lastDiscarded])) {
+      statistic.winner = player.wind;
+      statistic.winningTile = lastDiscarded;
+    }
   }
-  return result;
+  return statistic;
 }
 
 export default function StatisticBoard() {
@@ -28,17 +26,23 @@ export default function StatisticBoard() {
     room.restart();
   };
 
+  const statistic = gameStatistic(mahjong.game)
+
   return {
-    view(vnode) {
-      this.game = vnode.attrs.game;
+    view() {
       return (
         <Board title="游戏结束">
           <div className={classes.winTiles}>
-            {mahjong.game.players['E'].hand.map((tile) => (
+            {mahjong.game.players[statistic.winner].hand.map((tile) => (
               <MahjongTile tile={tile} />
             ))}
-            {mahjong.game.players['E'].melds.map((meld) => (
-              <div className="meld">
+            {
+              statistic.winningTile && <div className={classes.winningTile}>
+                <MahjongTile tile={statistic.winningTile} />
+              </div>
+            }
+            {mahjong.game.players[statistic.winner].melds.map((meld) => (
+              <div className={classes.meld}>
                 {meld.tiles.map((tile) => (
                   <MahjongTile tile={tile} small={true} />
                 ))}

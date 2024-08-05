@@ -210,10 +210,15 @@
 }
 
 .win-tiles {
+  margin-top: 10px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: baseline;
+}
+
+.winning-tile {
+  margin: 0 10px;
 }
 
 .buttons {
