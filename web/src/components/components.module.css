@@ -69,6 +69,8 @@
   padding: 10px 5px 5px 5px;
   border-radius: 10px;
   margin: 0 5px;
+  border: 2px solid rgb(255 255 255 / 28%);
+  box-shadow: 0 0 12px 0px rgba(0, 0, 0, 0.259);
 }
 
 .panel .choosen .dialog .kong {
@@ -86,23 +88,6 @@
 
 .meld {
   margin: 0 10px;
-}
-
-.button {
-  text-align: center;
-  font-family: 'Ma Shan Zheng', cursive;
-  font-weight: 400;
-  font-style: normal;
-  color: #d9ebfd;
-  background-color: #3f79b2;
-  font-size: 30px;
-  display: inline-block;
-  padding: 4px;
-  border: 3px solid #1d3954;
-  border-radius: 10px;
-  cursor: pointer;
-  text-decoration: none;
-  box-shadow: 0px 4px 0px 0px #1d3954;
 }
 
 .hand-wrapper {
@@ -183,6 +168,7 @@
   animation: blink 1500ms infinite;
 }
 
+.board-back,
 .connection,
 .statistic {
   position: absolute;
@@ -190,7 +176,6 @@
   left: 0;
   bottom: 0;
   right: 0;
-  /* background-color: rgba(0, 0, 0, 0.2); */
   z-index: 100;
   padding: 30px;
   font-family: 'Ma Shan Zheng', sans-serif;
@@ -202,12 +187,14 @@
 }
 
 .board {
+  min-width: 400px;
   background-color: rgb(237 247 255 / 82%);
   padding: 20px;
   border: 10px solid #1d3954;
   display: flex;
   flex-direction: column;
   overflow: auto;
+  box-shadow: 0 0 20px 0px rgb(0 0 0 / 16%);
 }
 
 .board .info {
@@ -222,18 +209,6 @@
   text-align: center;
 }
 
-.input {
-  font-family: 'Concert One', 'Ma Shan Zheng', sans-serif;
-  font-weight: 400;
-  color: #1d3954;
-  font-size: 30px;
-  text-align: center;
-  border: 3px solid #1d3954;
-  outline: none;
-  border-radius: 10px;
-  background-color: #ebfbff;
-}
-
 .win-tiles {
   display: flex;
   flex-direction: row;
@@ -241,7 +216,7 @@
   align-items: baseline;
 }
 
-.statistic .buttons {
+.buttons {
   margin-top: 30px;
   display: flex;
   flex-direction: row;
@@ -249,29 +224,12 @@
   align-items: center;
 }
 
-.statistic .buttons .button {
-  margin-left: 25px;
+.buttons button {
+  margin-left: 10px;
 }
 
-.connection .input {
-  margin-bottom: 15px;
-}
-
-.connection .label {
-  margin: 5px 0;
-}
-
-.connection .board {
-  padding-left: 80px;
-  padding-right: 80px;
-}
-
-.connection .spacer {
-  /* flex: 1; */
-  height: 30px;
-  margin: 0 4px;
-  margin-bottom: 20px;
-  border-bottom: 3px dashed #1d3954;
+.rotate {
+  transform: rotate(180deg);
 }
 
 @keyframes blink {

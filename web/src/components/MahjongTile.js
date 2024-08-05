@@ -1,4 +1,5 @@
 import m from 'mithril';
+import classes from './components.module.css';
 import classNames from 'classnames';
 
 // prettier-ignore
@@ -25,11 +26,11 @@ export default function MahjongTile() {
       return m(
         'div',
         {
-          className: classNames('tile', {
-            selected: vnode.attrs.selected ? true : false,
-            hidden: vnode.attrs.hidden,
-            small: vnode.attrs.small,
-            shadow: shadow,
+          className: classNames(classes.tile, {
+            [classes.selected]: vnode.attrs.selected ? true : false,
+            [classes.hidden]: vnode.attrs.hidden,
+            [classes.small]: vnode.attrs.small,
+            [classes.shadow]: shadow,
           }),
           onclick: vnode.attrs.onclick,
         },

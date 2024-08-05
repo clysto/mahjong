@@ -6,4 +6,9 @@ export default defineConfig({
     jsxFactory: 'm',
     jsxFragment: "'['",
   },
+  css: {
+    modules: {
+      localsConvention: 'camelCase',
+    },
+  },
 });

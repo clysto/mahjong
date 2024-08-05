@@ -1,15 +1,15 @@
 import m from 'mithril';
 import classNames from 'classnames';
 import MahjongTile from './MahjongTile';
+import classes from './components.module.css';
 
 export default class MahjongHand {
   constructor(vnode) {
-    this.tiles = vnode.attrs.tiles;
     this.selectedIndex = -1;
     this.ondiscard = vnode.attrs.ondiscard;
 
     window.addEventListener('click', (e) => {
-      if (!e.target.closest('.hand')) {
+      if (!e.target.closest('.' + classes.hand)) {
         this.selectedIndex = -1;
         m.redraw();
       }
@@ -28,11 +28,11 @@ export default class MahjongHand {
   view(vnode) {
     this.tiles = vnode.attrs.tiles;
     return m(
-      'div.hand',
+      'div',
       {
-        className: classNames({ 'separated-last-tile': vnode.attrs.separatedLastTile }),
+        className: classNames(classes.hand, { [classes.separatedLastTile]: vnode.attrs.separatedLastTile }),
       },
-      this.tiles.map((tile, index) =>
+      vnode.attrs.tiles.map((tile, index) =>
         m(MahjongTile, {
           key: `${tile}-${index}`,
           tile: tile,

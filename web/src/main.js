@@ -1,7 +1,10 @@
+import './index.css';
+
 import m from 'mithril';
 import './wasm_exec.js';
 import HomePage from './pages/HomePage';
 import GamePage from './pages/GamePage';
+import SettingsPage from './pages/SettingsPage';
 
 const go = new Go();
 WebAssembly.instantiateStreaming(fetch('index.wasm'), go.importObject).then((result) => {
@@ -27,5 +30,6 @@ WebAssembly.instantiateStreaming(fetch('index.wasm'), go.importObject).then((res
   m.route(document.getElementById('app'), '/home', {
     '/home': HomePage,
     '/game': GamePage,
+    '/settings': SettingsPage,
   });
 });

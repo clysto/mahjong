@@ -1,5 +1,6 @@
 import room from '../room';
 import m from 'mithril';
+import classes from './components.module.css';
 import MahjongHand from './MahjongHand';
 import MahjongTile from './MahjongTile';
 
@@ -42,6 +43,7 @@ export default class MyPanel {
   }
 
   handleDiscard(tile) {
+    console.log(1)
     if (mahjong.game.turn === this.myWind) {
       room.pushEvent('discard', {
         playerWind: this.myWind,
@@ -106,8 +108,8 @@ export default class MyPanel {
   view() {
     this.displayButtons();
     return (
-      <div className="panel">
-        <div className="bar">
+      <div className={classes.panel}>
+        <div className={classes.bar}>
           {this.buttons.map(
             (button) =>
               button.show && (
@@ -118,10 +120,10 @@ export default class MyPanel {
           )}
         </div>
         {this.concealedKongs.length > 0 && (
-          <div className="choosen">
-            <div className="dialog">
+          <div className={classes.choosen}>
+            <div className={classes.dialog}>
               {this.concealedKongs.map((tile) => (
-                <div className="kong" onclick={() => this.handleConcealedKong(tile)}>
+                <div className={classes.kong} onclick={() => this.handleConcealedKong(tile)}>
                   <MahjongTile tile={tile} small={true} shadow={false} />
                   <MahjongTile tile={tile} small={true} shadow={false} />
                   <MahjongTile tile={tile} small={true} shadow={false} />
@@ -131,15 +133,15 @@ export default class MyPanel {
             </div>
           </div>
         )}
-        <div className="hand-wrapper">
+        <div className={classes.handWrapper}>
           <MahjongHand
             tiles={mahjong.game.players[this.myWind].hand}
             separatedLastTile={false}
             ondiscard={(tile) => this.handleDiscard(tile)}
           />
-          <div className="melds">
+          <div className={classes.melds}>
             {mahjong.game.players[this.myWind].melds.map((meld) => (
-              <div className="meld">
+              <div className={classes.meld}>
                 {meld.tiles.map((tile) => (
                   <MahjongTile tile={tile} small={true} />
                 ))}

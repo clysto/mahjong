@@ -1,10 +1,6 @@
 import m from 'mithril';
 import Peer from 'peerjs';
 
-const HOST = 'localhost';
-const PORT = 9000;
-const PATH = '/myapp';
-
 const room = {
   connect(serverId) {
     this.ready = false;
@@ -16,7 +12,16 @@ const room = {
       this.peer.destroy();
     }
 
-    this.peer = new Peer();
+    try {
+      const peerjsInfo = JSON.parse(localStorage.getItem('peerjs'));
+      this.peer = new Peer({
+        host: peerjsInfo.host,
+        port: peerjsInfo.port,
+        path: peerjsInfo.path,
+      });
+    } catch (e) {
+      this.peer = new Peer();
+    }
 
     this.peer.on('open', (id) => {
       this.id = id;
