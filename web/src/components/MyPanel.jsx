@@ -43,7 +43,6 @@ export default class MyPanel {
   }
 
   handleDiscard(tile) {
-    console.log(1)
     if (mahjong.game.turn === this.myWind) {
       room.pushEvent('discard', {
         playerWind: this.myWind,

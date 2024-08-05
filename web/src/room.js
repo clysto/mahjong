@@ -64,7 +64,6 @@ const room = {
   },
 
   handleData(data) {
-    console.log(data);
     if (this.role === 'client') {
       if (data.type === 'state') {
         this.ready = true;

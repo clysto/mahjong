@@ -18,8 +18,9 @@ export default class MahjongHand {
 
   handleTileClick(index) {
     if (this.ondiscard && index === this.selectedIndex) {
-      this.selectedIndex = -1;
       this.ondiscard(this.tiles[index]);
+      this.selectedIndex = -1;
+      this.tiles = this.tiles.filter((_, i) => i !== index);
       return;
     }
     this.selectedIndex = index;
