@@ -11,6 +11,7 @@ export const TILES = [
 ];
 
 const TILEIMAGES = import.meta.glob('./tiles/*.svg', {
+  query: '?raw',
   import: 'default',
   eager: true,
 });
@@ -33,7 +34,7 @@ export default function MahjongTile() {
           }),
           onclick: vnode.attrs.onclick,
         },
-        vnode.attrs.hidden || m('img', { draggable: false, src: TILEIMAGES[`./tiles/${vnode.attrs.tile}.svg`] })
+        vnode.attrs.hidden || m.trust(TILEIMAGES[`./tiles/${vnode.attrs.tile}.svg`])
       );
     },
   };
