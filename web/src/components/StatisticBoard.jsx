@@ -4,6 +4,23 @@ import MahjongTile from './MahjongTile';
 
 const { Link } = m.route;
 
+function gameStatistic(game) {
+  // check who win
+  let result = '';
+  if (game.winner === 'E') {
+    result = '东家胜';
+  } else if (game.winner === 'S') {
+    result = '南家胜';
+  } else if (game.winner === 'W') {
+    result = '西家胜';
+  } else if (game.winner === 'N') {
+    result = '北家胜';
+  } else {
+    result = '流局';
+  }
+  return result;
+}
+
 export default function StatisticBoard() {
   const restart = () => {
     room.restart();

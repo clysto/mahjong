@@ -1,10 +1,11 @@
 import m from 'mithril';
 import room from '../room';
 
+const { Link } = m.route;
+
 import './GamePage.css';
 import '../components/components.css';
 
-import ConnectDialog from '../components/ConnectDialog.jsx';
 import MyPanel from '../components/MyPanel.jsx';
 import MahjongTile from '../components/MahjongTile';
 import MahjongIndicator from '../components/MahjongIndicator.jsx';
@@ -76,7 +77,9 @@ export default class GamePage {
             <p className="label">分享以下房间号给你的朋友：</p>
             <input type="text" className="input" value={room.id} readOnly placeholder="创建中......" />
             <div className="spacer"></div>
-            <button className="button">返回大厅</button>
+            <Link href="/home" className="button">
+              返回大厅
+            </Link>
           </div>
         </div>
       )

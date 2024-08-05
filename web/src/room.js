@@ -40,6 +40,10 @@ const room = {
           this.conn.on('data', this.handleData.bind(this));
           this.conn.send({ type: 'state' });
         });
+        this.conn.on('close', () => {
+          console.log('Server disconnected');
+          m.route.set('/home');
+        });
       }
     });
   },

@@ -89,6 +89,7 @@
 }
 
 .button {
+  text-align: center;
   font-family: 'Ma Shan Zheng', cursive;
   font-weight: 400;
   font-style: normal;
@@ -189,23 +190,24 @@
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.2);
+  /* background-color: rgba(0, 0, 0, 0.2); */
   z-index: 100;
   padding: 30px;
   font-family: 'Ma Shan Zheng', sans-serif;
   font-size: 20px;
   color: #1d3954;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .board {
   background-color: rgb(237 247 255 / 82%);
-  width: 100%;
-  height: 100%;
-  /* border-radius: 20px; */
   padding: 20px;
   border: 10px solid #1d3954;
   display: flex;
   flex-direction: column;
+  overflow: auto;
 }
 
 .board .info {
@@ -240,6 +242,7 @@
 }
 
 .statistic .buttons {
+  margin-top: 30px;
   display: flex;
   flex-direction: row;
   justify-content: end;
@@ -264,7 +267,8 @@
 }
 
 .connection .spacer {
-  flex: 1;
+  /* flex: 1; */
+  height: 30px;
   margin: 0 4px;
   margin-bottom: 20px;
   border-bottom: 3px dashed #1d3954;
