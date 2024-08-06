@@ -3,6 +3,7 @@ import Peer from 'peerjs';
 
 const room = {
   connect(serverId) {
+    this.id = undefined;
     this.ready = false;
     this.players = {};
     this.role = serverId ? 'client' : 'server';
@@ -18,6 +19,7 @@ const room = {
         host: peerjsInfo.host,
         port: peerjsInfo.port,
         path: peerjsInfo.path,
+        secure: peerjsInfo.tls,
       });
     } catch (e) {
       this.peer = new Peer();

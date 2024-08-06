@@ -46,6 +46,8 @@ input {
   border-radius: 10px;
   background-color: #ebfbff;
   user-select: text;
+  display: block;
+  width: 100%;
 }
 
 .input::placeholder,
@@ -53,8 +55,45 @@ input::placeholder {
   color: #5f7285;
 }
 
+input[type='checkbox'] {
+  appearance: none;
+  background-color: #ebfbff;
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  width: 30px;
+  height: 30px;
+  border: 3px solid #1d3954;
+  border-radius: 10px;
+  display: grid;
+  place-content: center;
+  cursor: pointer;
+}
+
+input[type='checkbox']::before {
+  content: '';
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+
+  transform: scale(0);
+  box-shadow: inset 1em 1em #1d3954;
+}
+
+input[type='checkbox']:checked::before {
+  transform: scale(1);
+}
+
 .mb-10 {
   margin-bottom: 10px;
+}
+
+.mr-10 {
+  margin-right: 10px;
+}
+
+.flex-1 {
+  flex: 1;
 }
 
 p {
