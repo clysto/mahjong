@@ -19,11 +19,17 @@ export default class MahjongHand {
   handleTileClick(index) {
     if (this.ondiscard && index === this.selectedIndex) {
       this.ondiscard(this.tiles[index]);
-      this.selectedIndex = -1;
+      // this.selectedIndex = -1;
       this.tiles = this.tiles.filter((_, i) => i !== index);
       return;
     }
     this.selectedIndex = index;
+  }
+
+  onbeforeupdate(vnode, old) {
+    if (vnode.attrs.tiles.length !== old.attrs.tiles.length) {
+      this.selectedIndex = -1;
+    }
   }
 
   view(vnode) {

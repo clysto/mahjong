@@ -35,9 +35,6 @@ func (e DiscardEvent) Apply(g *Game) error {
 	if g.Turn != e.PlayerWind {
 		return errors.New("not player's turn")
 	}
-	if len(g.Wall) == 0 {
-		return errors.New("wall is empty")
-	}
 	player, ok := g.Players[e.PlayerWind]
 	if !ok {
 		return errors.New("player not found")
@@ -63,6 +60,11 @@ func (e DiscardEvent) Apply(g *Game) error {
 		if p.StealingConfirm != nil {
 			return nil
 		}
+	}
+
+	if len(g.Wall) == 0 {
+		g.Ended = true
+		return nil
 	}
 
 	g.NextTurn()
@@ -98,6 +100,10 @@ func (e PongEvent) Apply(g *Game) error {
 }
 
 func (e KongEvent) Apply(g *Game) error {
+	// 牌墙为空时不能杠
+	if len(g.Wall) == 0 {
+		return errors.New("wall is empty")
+	}
 	if g.Turn != e.PlayerWind {
 		if g.Players[e.PlayerWind].StealingConfirm == nil {
 			return errors.New("player cannot kong")
@@ -108,10 +114,6 @@ func (e KongEvent) Apply(g *Game) error {
 		count := CountTiles(player.Hand, lastDiscarded)
 		if count < 3 {
 			return errors.New("not enough tiles to kong")
-		}
-		// 牌墙为空时不能杠
-		if len(g.Wall) == 0 {
-			return errors.New("wall is empty")
 		}
 
 		player.StealingConfirm.Declared = true

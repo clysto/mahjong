@@ -33,10 +33,10 @@ const room = {
         this.dealer = 'E';
         wasm.startGame(this.dealer);
         this.peer.on('connection', (conn) => {
+          this.conn = conn;
           console.log('Client connected: ' + conn.peer);
           this.ready = true;
           m.redraw();
-          this.conn = conn;
           this.conn.on('data', this.handleData.bind(this));
         });
       } else {
@@ -59,13 +59,16 @@ const room = {
     if (this.role === 'client') {
       this.conn.send({ type: 'pushEvent', eventType, event });
     } else {
-      wasm.pushEvent(eventType, event);
+      mahjong.pushEvent(eventType, event);
       // localStorage.setItem('game', JSON.stringify(mahjong.game));
       this.conn.send({ type: 'state', game: mahjong.game });
     }
   },
 
   handleData(data) {
+    if (import.meta.env.DEV) {
+      console.log(data);
+    }
     if (this.role === 'client') {
       if (data.type === 'state') {
         this.ready = true;
@@ -76,8 +79,10 @@ const room = {
       if (data.type === 'state') {
         this.conn.send({ type: 'state', game: mahjong.game });
       } else if (data.type === 'pushEvent') {
-        wasm.pushEvent(data.eventType, data.event);
-        this.conn.send({ type: 'state', game: mahjong.game });
+        this.pushEvent(data.eventType, data.event);
+        m.redraw();
+      } else if (data.type === 'restart') {
+        this.restart();
         m.redraw();
       }
     }

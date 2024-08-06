@@ -71,11 +71,6 @@ func NewGame(config GameConfig) *Game {
 
 // move to the next player, the order is East -> South -> West -> North
 func (g *Game) NextTurn() {
-	if len(g.Wall) == 0 {
-		g.Ended = true
-		return
-	}
-
 	order := map[Wind]Wind{
 		East:  South,
 		South: West,
@@ -173,6 +168,10 @@ func (g *Game) ApplyStealing() {
 		// no one wants to steal the tile
 		for _, p := range g.Players {
 			p.StealingConfirm = nil
+		}
+		if len(g.Wall) == 0 {
+			g.Ended = true
+			return
 		}
 		g.NextTurn()
 		g.Draw(g.Turn)

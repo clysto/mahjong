@@ -52,7 +52,10 @@ export default class MyPanel {
   }
 
   handleAction(eventType) {
-    if (eventType === 'kong' && this.concealedKongs.length > 0) {
+    if (eventType === 'kong' && this.concealedKongs.length > 1) {
+      return;
+    } else if (eventType === 'kong' && this.concealedKongs.length === 1) {
+      this.handleConcealedKong(this.concealedKongs[0]);
       return;
     }
     const e = {
@@ -82,10 +85,16 @@ export default class MyPanel {
         case '杠':
           if (myTurn) {
             // 暗杠或者补杠
-            button.show = this.concealedKongs.length > 0;
+            if (mahjong.game.wall.length === 0) {
+              // 没有牌了不能杠
+              this.concealedKongs = [];
+              button.show = false;
+            } else {
+              button.show = this.concealedKongs.length > 0;
+            }
           } else {
             // 明杠
-            button.show = this.canSteal() && countTiles(hand, lastDiscarded) >= 3;
+            button.show = mahjong.game.wall.length > 0 && this.canSteal() && countTiles(hand, lastDiscarded) >= 3;
           }
           break;
         case '碰':
@@ -97,9 +106,8 @@ export default class MyPanel {
           } else if (myTurn) {
             button.show = mahjong.checkWinningHand(hand);
           } else {
-            // 有问题，别人没打的时候，不能判断lastDiscarded
             if (lastDiscarded) {
-              button.show = mahjong.checkWinningHand([...hand, lastDiscarded]);
+              button.show = this.canSteal() && mahjong.checkWinningHand([...hand, lastDiscarded]);
             } else {
               button.show = false;
             }
@@ -120,17 +128,18 @@ export default class MyPanel {
     this.displayButtons();
     return (
       <div className={classes.panel}>
-        <div className={classes.bar}>
-          {this.buttons.map(
-            (button) =>
-              button.show &&
-              !mahjong.game.ended && (
-                <div className="button" onclick={() => this.handleAction(button.eventType)}>
-                  {button.text}
-                </div>
-              )
-          )}
-        </div>
+        {!mahjong.game.ended && (
+          <div className={classes.bar}>
+            {this.buttons.map(
+              (button) =>
+                button.show && (
+                  <div className="button" onclick={() => this.handleAction(button.eventType)}>
+                    {button.text}
+                  </div>
+                )
+            )}
+          </div>
+        )}
         {this.concealedKongs.length > 0 && (
           <div className={classes.choosen}>
             <div className={classes.dialog}>
