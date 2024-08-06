@@ -124,8 +124,19 @@ func (e KongEvent) Apply(g *Game) error {
 		return nil
 	} else {
 		// 暗杠或者补杠
-		// TODO: added kong logic
 		player := g.Players[e.PlayerWind]
+
+		for i, meld := range player.Melds {
+			if len(meld.Tiles) == 3 && meld.Tiles[0] == e.KongTile {
+				// 补杠
+				player.Hand = RemoveTiles(player.Hand, e.KongTile, 1)
+				player.Melds[i].Tiles = append(meld.Tiles, e.KongTile)
+				SortHand(player.Hand)
+				g.Draw(g.Turn)
+				return nil
+			}
+		}
+
 		count := CountTiles(player.Hand, e.KongTile)
 		if count < 4 {
 			return errors.New("not enough tiles to kong")

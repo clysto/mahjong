@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build-wasm": "cd ../wasm && GOOS=js GOARCH=wasm go build -o ../web/public/index.wasm"
   },
   "devDependencies": {
     "classnames": "^2.5.1",
