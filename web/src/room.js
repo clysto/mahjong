@@ -13,8 +13,6 @@ if (import.meta.env.VITE_TURN_URL) {
   });
 }
 
-console.log(ICE_CONFIG);
-
 const room = {
   connect(serverId) {
     this.id = undefined;

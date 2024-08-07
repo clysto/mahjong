@@ -31,7 +31,7 @@ jobs:
       - name: Install dependencies
         run: cd web && npm install
       - name: Build
-        run: cd web && npm run build
+        run: cd web && VITE_BASE_URL=/mahjong npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
