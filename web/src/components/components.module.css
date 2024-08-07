@@ -153,11 +153,11 @@
 }
 
 .indicator .winds .north {
-  transform: rotate(90deg);
+  transform: rotate(-90deg);
 }
 
 .indicator .winds .south {
-  transform: rotate(-90deg);
+  transform: rotate(90deg);
 }
 
 .indicator .winds .west.active,
