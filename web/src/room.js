@@ -1,6 +1,20 @@
 import m from 'mithril';
 import Peer from 'peerjs';
 
+const ICE_CONFIG = {
+  iceServers: [{ url: 'stun:stun.l.google.com:19302' }],
+};
+
+if (import.meta.env.VITE_TURN_URL) {
+  ICE_CONFIG.iceServers.push({
+    url: import.meta.env.VITE_TURN_URL,
+    username: import.meta.env.VITE_TURN_USERNAME,
+    credential: import.meta.env.VITE_TURN_CREDENTIAL,
+  });
+}
+
+console.log(ICE_CONFIG);
+
 const room = {
   connect(serverId) {
     this.id = undefined;
@@ -20,9 +34,12 @@ const room = {
         port: peerjsInfo.port,
         path: peerjsInfo.path,
         secure: peerjsInfo.tls,
+        config: ICE_CONFIG,
       });
     } catch (e) {
-      this.peer = new Peer();
+      this.peer = new Peer({
+        config: ICE_CONFIG,
+      });
     }
 
     this.peer.on('open', (id) => {

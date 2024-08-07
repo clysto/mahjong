@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host 0.0.0.0",
+    "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "build-wasm": "cd ../wasm && GOOS=js GOARCH=wasm go build -o ../web/public/index.wasm"
@@ -13,6 +13,7 @@
     "classnames": "^2.5.1",
     "mithril": "^2.2.2",
     "peerjs": "^1.5.4",
-    "vite": "^5.3.4"
+    "vite": "^5.3.4",
+    "vite-plugin-pwa": "^0.20.1"
   }
 }
