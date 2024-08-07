@@ -1,6 +1,7 @@
 * {
   box-sizing: border-box;
   user-select: none;
+  touch-action: manipulation;
 }
 
 body {
@@ -32,6 +33,7 @@ button {
   cursor: pointer;
   text-decoration: none;
   box-shadow: 0px 4px 0px 0px #1d3954;
+  padding: 4px;
 }
 
 .input,
@@ -48,6 +50,7 @@ input {
   user-select: text;
   display: block;
   width: 100%;
+  padding: 1px 2px;
 }
 
 .input::placeholder,
