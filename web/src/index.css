@@ -1,11 +1,10 @@
 * {
   box-sizing: border-box;
   user-select: none;
-  touch-action: manipulation;
 }
 
 body {
-  background-color: #000000;
+  background-color: #0e1c13;
   margin: 0;
 }
 
@@ -14,7 +13,9 @@ body {
   flex-direction: column;
   height: 100vh;
   position: relative;
-  max-height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .button,
