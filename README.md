@@ -10,3 +10,16 @@ A two player game is implemented as an example.
 | ------------------------------------- | ------------------------------------- |
 | ![Mahjong Game](misc/screenshot1.png) | ![Mahjong Game](misc/screenshot2.png) |
 | ![Mahjong Game](misc/screenshot3.png) | ![Mahjong Game](misc/screenshot4.png) |
+
+## Build Demo
+
+```bash
+cd web
+npm install
+npm run build-wasm
+npm run build
+```
+
+## Todo
+
+- [x] Suggestion

@@ -29,6 +29,16 @@ func startGame(this js.Value, args []js.Value) (interface{}, error) {
 	return nil, nil
 }
 
+func recoverGame(this js.Value, args []js.Value) (interface{}, error) {
+	err := UnmarshalJSValue(args[0], &game)
+	if err != nil {
+		return nil, err
+	}
+	obj := js.Global().Get("wasm")
+	obj.Set("game", GenerateJSValue(game))
+	return nil, nil
+}
+
 func pushEvent(this js.Value, args []js.Value) (interface{}, error) {
 	eventType := args[0].String()
 	eventTypeMap := map[string]reflect.Type{
@@ -70,6 +80,7 @@ func main() {
 	global.Set("wasm", wasm)
 
 	RegisterFunc(wasm, "startGame", startGame)
+	RegisterFunc(wasm, "recoverGame", recoverGame)
 	RegisterFunc(wasm, "pushEvent", pushEvent)
 	RegisterFunc(wasm, "checkWinningHand", checkWinningHand)
 

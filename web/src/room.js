@@ -14,7 +14,7 @@ if (import.meta.env.VITE_TURN_URL) {
 }
 
 const room = {
-  connect(serverId) {
+  connect(serverId, game) {
     this.id = undefined;
     this.ready = false;
     this.players = {};
@@ -46,7 +46,12 @@ const room = {
       console.log(this.id);
       if (this.role === 'server') {
         this.dealer = 'E';
-        wasm.startGame(this.dealer);
+        if (game) {
+          // 恢复历史游戏
+          mahjong.recoverGame(game);
+        } else {
+          mahjong.startGame(this.dealer);
+        }
         this.peer.on('connection', (conn) => {
           this.conn = conn;
           console.log('Client connected: ' + conn.peer);
@@ -75,7 +80,7 @@ const room = {
       this.conn.send({ type: 'pushEvent', eventType, event });
     } else {
       mahjong.pushEvent(eventType, event);
-      // localStorage.setItem('game', JSON.stringify(mahjong.game));
+      localStorage.setItem('game', JSON.stringify(mahjong.game));
       this.conn.send({ type: 'state', game: mahjong.game });
     }
   },

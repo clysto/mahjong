@@ -62,6 +62,20 @@ func (s TileSet) MarshalJSON() ([]byte, error) {
 	return []byte(fmt.Sprintf("\"%s\"", s.String())), nil
 }
 
+func (s *TileSet) UnmarshalJSON(data []byte) error {
+	switch string(data) {
+	case "\"m\"":
+		*s = Characters
+	case "\"p\"":
+		*s = Dots
+	case "\"s\"":
+		*s = Bamboo
+	case "\"z\"":
+		*s = Honors
+	}
+	return nil
+}
+
 func (t Tile) String() string {
 	var s string
 	switch t.Set {
