@@ -126,6 +126,7 @@ export default class MyPanel {
 
   view() {
     this.displayButtons();
+    const separatedLastTile = mahjong.game.players[this.myWind].hand.length % 3 === 2;
     return (
       <div className={classes.panel}>
         {!mahjong.game.ended && (
@@ -157,7 +158,7 @@ export default class MyPanel {
         <div className={classes.handWrapper}>
           <MahjongHand
             tiles={mahjong.game.players[this.myWind].hand}
-            separatedLastTile={false}
+            separatedLastTile={separatedLastTile}
             ondiscard={(tile) => this.handleDiscard(tile)}
           />
           <div className={classes.melds}>

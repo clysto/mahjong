@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => {
           name: '双人麻将',
           short_name: '双人麻将',
           description: '双人麻将',
-          theme_color: '#000000',
+          theme_color: '#1f422d',
           icons: [
             {
               src: 'pwa-192x192.png',
